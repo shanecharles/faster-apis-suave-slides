@@ -143,7 +143,7 @@ What routes do we need?
 - Routing is functions composed by `>=>`
 - `warbler ()` for dynamic content
 - Gain access to Agents, Type Providers, and other F# features
-- Built a functioning API in under 50 lines of readable code
+- Built a functioning API in around 50 lines of readable code
 
 ***
 
