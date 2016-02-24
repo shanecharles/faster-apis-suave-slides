@@ -153,6 +153,8 @@ What routes do we need?
 - Twitter: [@dead_stroke](https://twitter.com/dead_stroke)
 - Blog: [http://geekeh.com](http://geekeh.com)
 - GitHub: [shanecharles](https://github.com/shanecharles)
+ - Code: [faster-apis-suave](https://github.com/shanecharles/faster-apis-suave)
+ - Slides: [faster-apis-suave-slides](https://github.com/shanecharles/faster-apis-suave-slides)
 - Email: shanecharles@burningicesolutions.com
 
 ***
