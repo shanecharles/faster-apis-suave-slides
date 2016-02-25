@@ -45,7 +45,7 @@
 
 ### Suave
 
-- Lightweight, non-blocking, RESTful web server for .net
+- Lightweight, non-blocking web server for .net
 - Written in [F#](http://fsharp.org/)
 - Self hosted, Azure, Heroku
 - But why?
