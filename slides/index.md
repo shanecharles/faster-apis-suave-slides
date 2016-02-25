@@ -157,6 +157,9 @@ What routes do we need?
  - April 11 - 12, 2016
  - 3 F# talks (Rachel Reese and Adam Krieger)
 
+- [Winnipeg Coffee and Code - www.meetup.com/wpgcoffeecode](http://www.meetup.com/wpgcoffeecode/)
+ - March 3, 2016
+
 ***
 
 ### Questions
