@@ -147,6 +147,18 @@ What routes do we need?
 
 ***
 
+### Upcoming fun
+
+- [fsharpConf - fsharpconf.com](http://fsharpconf.com/)
+ - March 4, 2016
+ - Free virtual conference!
+
+- [Prairie Dev Con Wpg - prairiedevcon.com](http://prairiedevcon.com/)
+ - April 11 - 12, 2016
+ - 3 F# talks (Rachel Reese and Adam Krieger)
+
+***
+
 ### Questions
 
 - Shane Charles
