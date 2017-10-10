@@ -1,3 +1,334 @@
-<html>
-  <body>Hello</body>
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Faster APIs with Suave</title>
+    <meta name="description" content="Introduction to Suave">
+    <meta name="author" content="Shane Charles">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="//code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/style.css" />
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/deedle.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <script src="fsharp.formatting/styles/tips.js" type="text/javascript"></script>
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="css/fsreveal.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <script language="javascript" type="text/javascript">
+        function init()
+        {
+            websocket = new WebSocket("ws://"+window.location.host+"/websocket");
+            websocket.onmessage = function(evt) { location.reload(); };
+        }
+        window.addEventListener("load", init, false);
+    </script>
+</head>
+<body>
+    <div class="reveal">
+        <div class="tip" id="fs1">type ContactType =<br />&#160;&#160;| Email<br />&#160;&#160;| Twitter<br />&#160;&#160;| Blog<br />&#160;&#160;| GitHub<br /><br />Full name: index.ContactType</div>
+<div class="tip" id="fs2">union case ContactType.Email: ContactType</div>
+<div class="tip" id="fs3">union case ContactType.Twitter: ContactType</div>
+<div class="tip" id="fs4">union case ContactType.Blog: ContactType</div>
+<div class="tip" id="fs5">union case ContactType.GitHub: ContactType</div>
+<div class="tip" id="fs6">val getContactInfo : _arg1:ContactType -&gt; string<br /><br />Full name: index.getContactInfo</div>
+<div class="tip" id="fs7">val id : x:&#39;T -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.Operators.id</div>
+<div class="tip" id="fs8">val not : value:bool -&gt; bool<br /><br />Full name: Microsoft.FSharp.Core.Operators.not</div>
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section >
+<h3>Faster APIs with</h3>
+<p><img src="images/suave1.png" alt="Suave" /></p>
+</section>
+<section >
+<h3>Who am I?</h3>
+<ul>
+<li>Shane Charles</li>
+<li>Co-owner of Burning Ice Solutions Inc.</li>
+<li>Developer since 2004</li>
+<li>Bachelor of Computer Science from U of M</li>
+<li>Diggin' <a href="http://fsharp.org">F#</a> and <a href="https://erlang.org">Erlang</a></li>
+</ul>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="t">ContactType</span> <span class="o">=</span> | <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="p">Email</span> | <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="p">Twitter</span> | <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="p">Blog</span> | <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="p">GitHub</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="f">getContactInfo</span> <span class="o">=</span> <span class="k">function</span>
+    | <span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="p">Twitter</span> <span class="k">-&gt;</span> <span class="s">&quot;@dead_stroke&quot;</span>
+    | <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="p">Blog</span>    <span class="k">-&gt;</span> <span class="s">&quot;http://geekeh.com&quot;</span>
+    | <span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="p">GitHub</span>  <span class="k">-&gt;</span> <span class="s">&quot;shanecharles&quot;</span>
+    | <span onmouseout="hideTip(event, 'fs2', 10)" onmouseover="showTip(event, 'fs2', 10)" class="p">Email</span>   <span class="k">-&gt;</span> <span class="s">&quot;shanecharles@burningicesolutions.com&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<h3>Our Path</h3>
+<ul>
+<li>What is Suave</li>
+<li>How to get Suave</li>
+<li>Routing</li>
+<li>Build an API</li>
+<li>Deploy to Azure?</li>
+<li>Summary</li>
+<li>Questions</li>
+</ul>
+</section>
+<section >
+<h3>Suave</h3>
+<ul>
+<li>Lightweight, non-blocking web server for .net</li>
+<li>Written in <a href="http://fsharp.org/">F#</a></li>
+<li>Self hosted, Azure, Heroku</li>
+<li>
+But why?
+<ul>
+<li>Asp.net WebApi</li>
+<li>Asp.net Core 1.0</li>
+<li>NancyFx</li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Becoming Suave</h3>
+<ul>
+<li>Get Suave via Nuget or Paket</li>
+<li>Reference library from project/script</li>
+<li>Create a route and start server</li>
+</ul>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Suave</span>
+<span class="i">startWebServer</span> <span class="i">defaultConfig</span> (<span class="i">Successful</span><span class="o">.</span><span class="i">OK</span> <span class="s">&quot;Hello Suave&quot;</span>)
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<h3>Routing in Suave</h3>
+<p><img src="images/composability.gif" alt="Composability" /></p>
+</section>
+<section >
+<h3>Let's make an API for tracking bugs</h3>
+<p>What routes do we need?</p>
+</section>
+<section >
+<h3>Get all the bugs</h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">api</span><span class="o">/</span><span class="i">bugs</span> <span class="k">-&gt;</span> 
+  <span class="i">get</span> <span class="i">all</span> <span class="i">the</span> <span class="i">bugs</span> <span class="i">from</span> <span class="i">database</span>
+  <span class="i">serialize</span> <span class="k">to</span> <span class="i">json</span>
+  <span class="k">return</span> <span class="i">json</span>
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<h3>Get a single bug</h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">api</span><span class="o">/</span><span class="i">bugs</span><span class="o">/</span>{<span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="i">id</span>} <span class="k">-&gt;</span>
+  <span class="i">get</span> <span class="i">bug</span> <span class="i">from</span> <span class="i">database</span>
+  <span class="k">if</span> <span class="i">bug</span> <span class="i">exists</span>
+    <span class="i">serialze</span> <span class="k">to</span> <span class="i">json</span>
+    <span class="k">return</span> <span class="i">json</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="i">error</span> <span onmouseout="hideTip(event, 'fs8', 12)" onmouseover="showTip(event, 'fs8', 12)" class="i">not</span> <span class="i">found</span>
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<h3>Create a new bug</h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">api</span><span class="o">/</span><span class="i">bugs</span><span class="o">/</span><span class="i">create</span> <span class="k">-&gt;</span>
+  <span class="k">if</span> <span class="i">request</span> <span class="i">has</span> <span class="i">valid</span> <span class="i">data</span>
+    <span class="i">add</span> <span class="i">bug</span> <span class="k">to</span> <span class="i">database</span>
+    <span class="i">serialize</span> <span class="k">to</span> <span class="i">json</span>
+    <span class="k">return</span> <span class="i">json</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="i">error</span> <span class="i">bad</span> <span class="i">request</span>
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<h3>Rest of API</h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">api</span><span class="o">/</span><span class="i">bugs</span><span class="o">/</span>{<span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="i">id</span>}<span class="o">/</span><span class="i">close</span>
+<span class="i">api</span><span class="o">/</span><span class="i">bugs</span><span class="o">/</span>{<span onmouseout="hideTip(event, 'fs7', 14)" onmouseover="showTip(event, 'fs7', 14)" class="i">id</span>}<span class="o">/</span><span class="i">update</span>
+<span class="i">api</span><span class="o">/</span><span class="i">bugs</span><span class="o">?</span><span class="i">filter</span><span class="o">=</span>{<span class="i">status</span>}
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<section >
+<h3>Deploy to Azure</h3>
+<ul>
+<li>.deployment</li>
+<li>
+web.config
+<ul>
+<li>app.azure.fsx</li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>It wasn't me</h3>
+<ul>
+<li>
+Scott Hanselman blogged
+<ul>
+<li><a href="http://www.hanselman.com/blog/RunningSuaveioAndFWithFAKEInAzureWebAppsWithGitAndTheDeployButton.aspx">Suave on Azure with FAKE</a></li>
+</ul>
+</li>
+<li>
+Tomas Petricek refined the deployment process
+<ul>
+<li><a href="https://github.com/tpetricek/suave-fshome">Suave-FsHome on GitHub</a></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section >
+<h3>Summary</h3>
+<ul>
+<li>Suave can start from executable or a script</li>
+<li>Routing is functions composed by <code>&gt;=&gt;</code></li>
+<li><code>warbler ()</code> for dynamic content</li>
+<li>Gain access to Agents, Type Providers, and other F# features</li>
+<li>Built a functioning API in around 50 lines of readable code</li>
+</ul>
+</section>
+<section >
+<h3>Upcoming fun</h3>
+<ul>
+<li>
+<a href="http://fsharpconf.com/">fsharpConf - fsharpconf.com</a>
+<ul>
+<li>March 4, 2016</li>
+<li>Free virtual conference!</li>
+</ul>
+</li>
+<li>
+<a href="http://prairiedevcon.com/">Prairie Dev Con Wpg - prairiedevcon.com</a>
+<ul>
+<li>April 11 - 12, 2016</li>
+<li>3 F# talks (Rachel Reese and Adam Krieger)</li>
+</ul>
+</li>
+<li>
+<a href="http://www.meetup.com/wpgcoffeecode/">Winnipeg Coffee and Code - www.meetup.com/wpgcoffeecode</a>
+<ul>
+<li>March 3, 2016</li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Questions</h3>
+<ul>
+<li>Shane Charles</li>
+<li>Twitter: <a href="https://twitter.com/dead_stroke">@dead_stroke</a></li>
+<li>Blog: <a href="http://geekeh.com"><a href="http://geekeh.com">http://geekeh.com</a></a></li>
+<li>
+GitHub: <a href="https://github.com/shanecharles">shanecharles</a>
+<ul>
+<li>Code: <a href="https://github.com/shanecharles/faster-apis-suave">faster-apis-suave</a></li>
+<li>Slides: <a href="https://github.com/shanecharles/faster-apis-suave-slides">faster-apis-suave-slides</a></li>
+</ul>
+</li>
+<li>Email: shanecharles@burningicesolutions.com</li>
+</ul>
+</section>
+
+
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+        // Add the nohighlight class and data-noescape attribute to code elements that have already been formatted by FSharp.Formatting
+        $('pre.highlighted code').addClass('nohighlight').attr('data-noescape', '');
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } }
+            ]
+        });
+
+    </script>
+</body>
 </html>
+
